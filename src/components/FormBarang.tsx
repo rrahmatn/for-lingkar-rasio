@@ -7,15 +7,15 @@ import CurrencyFormat from "react-currency-format";
 interface FormBarangProps {
   onSubmit: (values: Barang) => void;
   initialData?: Barang;
-  onSuccess : ()=> void,
-  onClose : ()=> void
+  onSuccess: () => void;
+  onClose: () => void;
 }
 
-const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSuccess , onClose }) => {
+const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData, onSuccess, onClose }) => {
   const [loading, setLoading] = useState(false); // State untuk indikator loading
 
   const formik = useFormik<Barang>({
-    enableReinitialize : true ,
+    enableReinitialize: true,
     initialValues: {
       nama: initialData?.nama || "",
       kategori: initialData?.kategori || "Elektronik",
@@ -39,14 +39,14 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
         .required("Tanggal wajib diisi."),
     }),
     onSubmit: async (values) => {
-      setLoading(true); 
+      setLoading(true);
       setTimeout(() => {
-        onSubmit(values); 
-        setLoading(false); 
-        onSuccess()
-        onClose()
-        formik.resetForm()
-      }, 2000); 
+        onSubmit(values);
+        setLoading(false);
+        onSuccess();
+        onClose();
+        formik.resetForm();
+      }, 2000);
     },
   });
 
@@ -59,7 +59,6 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3 p-2">
       <input
         type="text"
-        name="nama"
         placeholder="Nama Barang"
         {...formik.getFieldProps("nama")}
         className={`border p-2 rounded-md shadow-sm tracking-wide ${formik.errors.nama ? 'border-2 border-red-500' : ''}`}
@@ -69,7 +68,6 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
       )}
 
       <select
-        name="kategori"
         {...formik.getFieldProps("kategori")}
         className={`border p-2 rounded-md shadow-sm tracking-wide ${formik.errors.kategori ? 'border-2 border-red-500' : ''}`}
       >
@@ -81,7 +79,6 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
 
       <input
         type="number"
-        name="jumlah"
         placeholder="Jumlah Barang"
         {...formik.getFieldProps("jumlah")}
         className={`border p-2 rounded-md shadow-sm tracking-wide ${formik.errors.jumlah ? 'border-2 border-red-500' : ''}`}
@@ -105,7 +102,6 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
 
       <input
         type="date"
-        name="tanggalMasuk"
         {...formik.getFieldProps("tanggalMasuk")}
         className={`border p-2 rounded-md shadow-sm tracking-wide ${formik.errors.tanggalMasuk ? 'border-2 border-red-500' : ''}`}
       />
@@ -116,9 +112,9 @@ const FormBarang: React.FC<FormBarangProps> = ({ onSubmit, initialData , onSucce
       <button
         type="submit"
         className={`btn btn-primary p-2 ${loading || !formik.isValid ? 'disabled' : ''}`}
-        disabled={loading || !formik.isValid }
+        disabled={loading || !formik.isValid}
       >
-        {loading ? <span className="loading loading-spinner loading-sm"></span> : "Simpan"}{" "}
+        {loading ? <span className="loading loading-spinner loading-sm"></span> : "Simpan"}
       </button>
     </form>
   );
